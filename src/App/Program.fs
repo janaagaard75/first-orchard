@@ -1,4 +1,10 @@
-﻿open System
+﻿module FirstOrchard.App
+
+open System
+
+type Website =
+    { Title : string
+      Url : string }
 
 [<EntryPoint>]
 let main argv =
