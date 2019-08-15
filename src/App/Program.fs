@@ -2,9 +2,18 @@
 
 open System
 
-type Website =
-    { Title : string
-      Url : string }
+type Fruit =
+    | Blue
+    | Green
+    | Red
+    | Yellow
+
+type Tree =
+    { FruitType : Fruit
+      NumberOfFruits : byte }
+
+let Orchard =
+ { BlueTree : byte }
 
 [<EntryPoint>]
 let main argv =
