@@ -6,7 +6,8 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "ts-node main.ts"
+    "run": "ts-node main.ts",
+    "validate": "tsc"
   },
   "dependencies": {
     "ts-node": "8.3.0",
