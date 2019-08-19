@@ -173,14 +173,22 @@ class Game {
         this.orchard.pickFruitIfPossible(Fruit.Green)
         break
       case DieRool.Raven:
-        this.ravenPosition
+        this.ravenPosition--
     }
 
     this.updateGameState()
   }
 
   private updateGameState() {
-    throw new Error("Not implemented.")
+    if (this.orchard.totalNumberOfFruits === 0) {
+      this.state = GameState.WeWon
+      return
+    }
+
+    if (this.ravenPosition === 0) {
+      this.state = GameState.RavenWon
+      return
+    }
   }
 }
 
