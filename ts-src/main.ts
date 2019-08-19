@@ -38,12 +38,6 @@ class Tree {
   }
 }
 
-class UnreachableCaseError extends Error {
-  constructor(val: never) {
-    super(`Unreachable case: ${val}`)
-  }
-}
-
 class Orchard {
   constructor() {
     this.trees[Fruit.Blue] = new Tree()
@@ -85,27 +79,23 @@ class Orchard {
   }
 
   pickPreferredFruit() {
+    this.getPreferredTree().pickFruitIfPossible()
+  }
+
+  private getPreferredTree(): Tree {
     if (this.trees[Fruit.Blue].numberOfFruits >= 1) {
-      this.trees[Fruit.Blue].pickFruitIfPossible()
-      return
+      return this.trees[Fruit.Blue]
     }
 
     if (this.trees[Fruit.Green].numberOfFruits >= 1) {
-      this.trees[Fruit.Green].pickFruitIfPossible()
-      return
+      return this.trees[Fruit.Green]
     }
 
     if (this.trees[Fruit.Red].numberOfFruits >= 1) {
-      this.trees[Fruit.Red].pickFruitIfPossible()
-      return
+      return this.trees[Fruit.Red]
     }
 
-    if (this.trees[Fruit.Yellow].numberOfFruits >= 1) {
-      this.trees[Fruit.Yellow].pickFruitIfPossible()
-      return
-    }
-
-    throw new Error("No fruits left on the trees.")
+    return this.trees[Fruit.Yellow]
   }
 }
 
