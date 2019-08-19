@@ -1,10 +1,3 @@
-enum Fruit {
-  Blue,
-  Green,
-  Red,
-  Yellow
-}
-
 enum DieRool {
   Blue,
   Green,
@@ -14,13 +7,24 @@ enum DieRool {
   Raven
 }
 
+enum Fruit {
+  Blue,
+  Green,
+  Red,
+  Yellow
+}
+
 class Random {
   public static roolDie(): DieRool {
-    return DieRool.Blue
+    return this.randomNumber(6)
   }
 
   public static randomFruit(): Fruit {
-    return Fruit.Red
+    return this.randomNumber(4)
+  }
+
+  private static randomNumber(values: number) {
+    return Math.floor(Math.random() * values)
   }
 }
 
@@ -84,7 +88,8 @@ class Orchard {
   }
 
   pickFruitFromRandomTree() {
-    throw new Error("Not implemented.")
+    const randomTree = this.trees[Random.randomFruit()]
+    randomTree.pickFruitIfPossible()
   }
 
   pickPreferredFruit() {
