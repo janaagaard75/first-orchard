@@ -66,12 +66,21 @@ class Orchard {
   }
 
   pickFromTreeWithMostFruits() {
-    const max = Math.max(this.trees[Fruit.Blue].numberOfFruits)
-    const tree = this.trees.find(tree => tree.numberOfFruits === max)
-    if (tree === undefined) {
-      throw new Error(`Cound not find a tree with ${max} fruit(s).`)
-    }
-    tree.pickFruitIfPossible()
+    const treeWithMostFruits = this.trees.reduce(
+      (treeWithMostFruits, treeWithPossiblyMore) => {
+        if (
+          treeWithPossiblyMore.numberOfFruits >
+          treeWithMostFruits.numberOfFruits
+        ) {
+          return treeWithPossiblyMore
+        }
+
+        return treeWithMostFruits
+      },
+      this.trees[0]
+    )
+
+    treeWithMostFruits.pickFruitIfPossible()
   }
 
   pickFruitFromRandomTree() {
