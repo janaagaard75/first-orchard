@@ -68,9 +68,15 @@ class Orchard {
   fruitAvailable(fruit: Fruit): boolean {
     return this.trees[fruit].numberOfFruits >= 1
   }
+}
 
-  pickFromTreeWithMostFruits() {
-    const treeWithMostFruits = this.trees.reduce(
+interface BasketStrategy {
+  pickFruit(trees: Array<Tree>): void
+}
+
+class TreeWithMostStrategy implements BasketStrategy {
+  pickFruit(trees: Array<Tree>): void {
+    const treeWithMostFruits = trees.reduce(
       (treeWithMostFruits, treeWithPossiblyMore) => {
         if (
           treeWithPossiblyMore.numberOfFruits >
@@ -81,42 +87,27 @@ class Orchard {
 
         return treeWithMostFruits
       },
-      this.trees[0]
+      trees[0]
     )
 
     treeWithMostFruits.pickFruitIfPossible()
   }
+}
 
-  pickFruitFromRandomTree() {
-    const randomTree = this.trees[Random.randomFruit()]
+class RandomTreeStrategy implements BasketStrategy {
+  pickFruit(trees: Array<Tree>): void {
+    const randomTree = trees[Random.randomFruit()]
     randomTree.pickFruitIfPossible()
-  }
-
-  pickPreferredFruit() {
-    this.getPreferredTree().pickFruitIfPossible()
-  }
-
-  private getPreferredTree(): Tree {
-    if (this.trees[Fruit.Blue].numberOfFruits >= 1) {
-      return this.trees[Fruit.Blue]
-    }
-
-    if (this.trees[Fruit.Green].numberOfFruits >= 1) {
-      return this.trees[Fruit.Green]
-    }
-
-    if (this.trees[Fruit.Red].numberOfFruits >= 1) {
-      return this.trees[Fruit.Red]
-    }
-
-    return this.trees[Fruit.Yellow]
   }
 }
 
-enum BasketStrategy {
-  TreeWithMost,
-  Random,
-  PreferredOrder
+class FruitPreferenceStrategy implements BasketStrategy {
+  pickFruit(trees: Array<Tree>): void {
+    const firstTreeWithFruits = trees.find(tree => tree.numberOfFruits >= 1)
+    if (firstTreeWithFruits !== undefined) {
+      firstTreeWithFruits.pickFruitIfPossible()
+    }
+  }
 }
 
 enum GameState {
@@ -125,8 +116,14 @@ enum GameState {
   RavenWon
 }
 
+class UnreachableCaseError extends Error {
+  constructor(val: never) {
+    super(`Unreachable case: ${val}`)
+  }
+}
+
 class Game {
-  constructor(private strategy: BasketStrategy) {
+  constructor(private basketStrategy: BasketStrategy) {
     this.orchard = new Orchard()
     this.ravenPosition = 5
     this.state = GameState.Playing
@@ -154,26 +151,31 @@ class Game {
 
     switch (die) {
       case DieRool.Basket:
-        switch (this.strategy) {
-          case BasketStrategy.PreferredOrder:
-            this.orchard.pickPreferredFruit()
-            break
-          case BasketStrategy.Random:
-            this.orchard.pickFruitFromRandomTree()
-            break
-          case BasketStrategy.TreeWithMost:
-            this.orchard.pickFromTreeWithMostFruits()
-            break
-        }
+        this.basketStrategy.pickFruit(this.orchard.trees)
         break
+
       case DieRool.Blue:
         this.orchard.pickFruitIfPossible(Fruit.Blue)
         break
+
       case DieRool.Green:
         this.orchard.pickFruitIfPossible(Fruit.Green)
         break
+
       case DieRool.Raven:
         this.ravenPosition--
+        break
+
+      case DieRool.Red:
+        this.orchard.pickFruitIfPossible(Fruit.Red)
+        break
+
+      case DieRool.Yellow:
+        this.orchard.pickFruitIfPossible(Fruit.Yellow)
+        break
+
+      default:
+        throw new UnreachableCaseError(die)
     }
 
     this.updateGameState()
