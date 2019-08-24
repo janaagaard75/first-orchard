@@ -77,20 +77,20 @@ interface BasketStrategy {
 class TreeWithMostFruitsStrategy implements BasketStrategy {
   pickTree(trees: Array<Tree>): Tree {
     const treeWithMostFruits = trees.reduce(
-      (treeWithMostFruits, treeWithPossiblyMore) => {
-        if (
-          treeWithPossiblyMore.numberOfFruits >
-          treeWithMostFruits.numberOfFruits
-        ) {
-          return treeWithPossiblyMore
-        }
-
-        return treeWithMostFruits
-      },
+      (treeWithMostFruits, treeWithPossiblyMore) =>
+        treeWithPossiblyMore.numberOfFruits > treeWithMostFruits.numberOfFruits
+          ? treeWithPossiblyMore
+          : treeWithMostFruits,
       trees[0]
     )
 
     return treeWithMostFruits
+  }
+}
+
+class TreeWithFewestFruitsStrategy implements BasketStrategy {
+  pickTree(trees: Array<Tree>): Tree {
+    return trees.sort((a, b) => a.numberOfFruits - b.numberOfFruits)[0]
   }
 }
 
@@ -207,7 +207,7 @@ class Main {
     let ourVictories = 0
 
     for (let i = 0; i < numberOfGames; i++) {
-      const game = new Game(new PreferredFruitStrategy())
+      const game = new Game(new TreeWithFewestFruitsStrategy())
       game.playGame()
 
       switch (game.state) {

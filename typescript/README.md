@@ -3,3 +3,4 @@
 - Pick form the tree with most fruits: 77%.
 - Pick preferred fruits first: 73%.
 - Pick from a random tree: 62%.
+- Pick from the tree with least fruits: 48%.
