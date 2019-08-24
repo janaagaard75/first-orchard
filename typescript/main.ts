@@ -74,7 +74,7 @@ interface BasketStrategy {
   pickFruit(trees: Array<Tree>): void
 }
 
-class TreeWithMostStrategy implements BasketStrategy {
+class TreeWithMostFruitsStrategy implements BasketStrategy {
   pickFruit(trees: Array<Tree>): void {
     const treeWithMostFruits = trees.reduce(
       (treeWithMostFruits, treeWithPossiblyMore) => {
@@ -101,7 +101,7 @@ class RandomTreeStrategy implements BasketStrategy {
   }
 }
 
-class FruitPreferenceStrategy implements BasketStrategy {
+class PreferredFruitStrategy implements BasketStrategy {
   pickFruit(trees: Array<Tree>): void {
     const firstTreeWithFruits = trees.find(tree => tree.numberOfFruits >= 1)
     if (firstTreeWithFruits !== undefined) {
@@ -125,28 +125,29 @@ class UnreachableCaseError extends Error {
 class Game {
   constructor(private basketStrategy: BasketStrategy) {
     this.orchard = new Orchard()
-    this.ravenPosition = 5
+    this.ravenPosition = 6
     this.state = GameState.Playing
+    this.turns = 0
   }
 
   orchard: Orchard
   ravenPosition: number
   state: GameState
+  turns: number
 
   playGame() {
     while (this.state === GameState.Playing) {
       this.performTurn()
     }
-
-    switch (this.state) {
-      case GameState.WeWon:
-        throw new Error("Not implemented.")
-      case GameState.RavenWon:
-        throw new Error("Not implemented.")
-    }
   }
 
   performTurn() {
+    this.turns++
+
+    if (this.turns > 10000) {
+      throw new Error("Over 10000 turns performed. Something is wrong.")
+    }
+
     const die = Random.roolDie()
 
     switch (die) {
@@ -196,7 +197,30 @@ class Game {
 
 class Main {
   public run() {
-    console.info("Started.")
+    const numberOfGames = 100000
+    console.info(`Playing ${numberOfGames} games.`)
+
+    let ravenVictories = 0
+    let ourVictories = 0
+
+    for (let i = 0; i < numberOfGames; i++) {
+      const game = new Game(new PreferredFruitStrategy())
+      game.playGame()
+
+      switch (game.state) {
+        case GameState.RavenWon:
+          ravenVictories++
+          break
+
+        case GameState.WeWon:
+          ourVictories++
+          break
+      }
+    }
+
+    console.info(
+      `The raven won ${ravenVictories} times and we won ${ourVictories} times.`
+    )
   }
 }
 
