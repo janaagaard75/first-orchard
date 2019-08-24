@@ -71,11 +71,11 @@ class Orchard {
 }
 
 interface BasketStrategy {
-  pickFruit(trees: Array<Tree>): void
+  pickTree(trees: Array<Tree>): Tree
 }
 
 class TreeWithMostFruitsStrategy implements BasketStrategy {
-  pickFruit(trees: Array<Tree>): void {
+  pickTree(trees: Array<Tree>): Tree {
     const treeWithMostFruits = trees.reduce(
       (treeWithMostFruits, treeWithPossiblyMore) => {
         if (
@@ -90,23 +90,26 @@ class TreeWithMostFruitsStrategy implements BasketStrategy {
       trees[0]
     )
 
-    treeWithMostFruits.pickFruitIfPossible()
+    return treeWithMostFruits
   }
 }
 
 class RandomTreeStrategy implements BasketStrategy {
-  pickFruit(trees: Array<Tree>): void {
-    const randomTree = trees[Random.randomFruit()]
-    randomTree.pickFruitIfPossible()
+  pickTree(trees: Array<Tree>): Tree {
+    return trees[Random.randomFruit()]
   }
 }
 
 class PreferredFruitStrategy implements BasketStrategy {
-  pickFruit(trees: Array<Tree>): void {
+  pickTree(trees: Array<Tree>): Tree {
     const firstTreeWithFruits = trees.find(tree => tree.numberOfFruits >= 1)
-    if (firstTreeWithFruits !== undefined) {
-      firstTreeWithFruits.pickFruitIfPossible()
+    if (firstTreeWithFruits === undefined) {
+      throw new Error(
+        "There are no more fruits left. The game should have ended by now."
+      )
     }
+
+    return firstTreeWithFruits
   }
 }
 
@@ -152,7 +155,7 @@ class Game {
 
     switch (die) {
       case DieRool.Basket:
-        this.basketStrategy.pickFruit(this.orchard.trees)
+        this.basketStrategy.pickTree(this.orchard.trees).pickFruitIfPossible()
         break
 
       case DieRool.Blue:
@@ -197,7 +200,7 @@ class Game {
 
 class Main {
   public run() {
-    const numberOfGames = 100000
+    const numberOfGames = 1000000
     console.info(`Playing ${numberOfGames} games.`)
 
     let ravenVictories = 0
