@@ -8,10 +8,10 @@ enum DieRool {
 }
 
 enum Fruit {
-  Blue,
-  Green,
-  Red,
-  Yellow
+  BluePlum,
+  GreenApple,
+  RedApple,
+  YellowPear
 }
 
 class Random {
@@ -44,20 +44,20 @@ class Tree {
 
 class Orchard {
   constructor() {
-    this.trees[Fruit.Blue] = new Tree()
-    this.trees[Fruit.Green] = new Tree()
-    this.trees[Fruit.Red] = new Tree()
-    this.trees[Fruit.Yellow] = new Tree()
+    this.trees[Fruit.BluePlum] = new Tree()
+    this.trees[Fruit.GreenApple] = new Tree()
+    this.trees[Fruit.RedApple] = new Tree()
+    this.trees[Fruit.YellowPear] = new Tree()
   }
 
   trees: Array<Tree> = []
 
   get totalNumberOfFruits(): number {
     return (
-      this.trees[Fruit.Blue].numberOfFruits +
-      this.trees[Fruit.Green].numberOfFruits +
-      this.trees[Fruit.Red].numberOfFruits +
-      this.trees[Fruit.Yellow].numberOfFruits
+      this.trees[Fruit.BluePlum].numberOfFruits +
+      this.trees[Fruit.GreenApple].numberOfFruits +
+      this.trees[Fruit.RedApple].numberOfFruits +
+      this.trees[Fruit.YellowPear].numberOfFruits
     )
   }
 
@@ -169,11 +169,11 @@ class Game {
         break
 
       case DieRool.Blue:
-        this.orchard.pickFruitIfPossible(Fruit.Blue)
+        this.orchard.pickFruitIfPossible(Fruit.BluePlum)
         break
 
       case DieRool.Green:
-        this.orchard.pickFruitIfPossible(Fruit.Green)
+        this.orchard.pickFruitIfPossible(Fruit.GreenApple)
         break
 
       case DieRool.Raven:
@@ -181,11 +181,11 @@ class Game {
         break
 
       case DieRool.Red:
-        this.orchard.pickFruitIfPossible(Fruit.Red)
+        this.orchard.pickFruitIfPossible(Fruit.RedApple)
         break
 
       case DieRool.Yellow:
-        this.orchard.pickFruitIfPossible(Fruit.Yellow)
+        this.orchard.pickFruitIfPossible(Fruit.YellowPear)
         break
 
       default:
