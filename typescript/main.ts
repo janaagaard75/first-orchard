@@ -129,14 +129,24 @@ class Game {
   constructor(private basketStrategy: BasketStrategy) {
     this.orchard = new Orchard()
     this.ravenPosition = 6
-    this.state = GameState.Playing
     this.turns = 0
   }
 
   orchard: Orchard
   ravenPosition: number
-  state: GameState
   turns: number
+
+  get state(): GameState {
+    if (this.ravenPosition === 0) {
+      return GameState.RavenWon
+    }
+
+    if (this.orchard.totalNumberOfFruits === 0) {
+      return GameState.WeWon
+    }
+
+    return GameState.Playing
+  }
 
   playGame() {
     while (this.state === GameState.Playing) {
@@ -180,20 +190,6 @@ class Game {
 
       default:
         throw new UnreachableCaseError(die)
-    }
-
-    this.updateGameState()
-  }
-
-  private updateGameState() {
-    if (this.orchard.totalNumberOfFruits === 0) {
-      this.state = GameState.WeWon
-      return
-    }
-
-    if (this.ravenPosition === 0) {
-      this.state = GameState.RavenWon
-      return
     }
   }
 }
