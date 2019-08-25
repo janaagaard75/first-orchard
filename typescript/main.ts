@@ -71,10 +71,13 @@ class Orchard {
 }
 
 interface BasketStrategy {
+  name: string
   pickTree(trees: Array<Tree>): Tree
 }
 
 class TreeWithMostFruitsStrategy implements BasketStrategy {
+  name = "Pick from the tree with the most fruits"
+
   pickTree(trees: Array<Tree>): Tree {
     const treeWithMostFruits = trees.reduce(
       (treeWithMostFruits, treeWithPossiblyMore) =>
@@ -89,18 +92,24 @@ class TreeWithMostFruitsStrategy implements BasketStrategy {
 }
 
 class TreeWithFewestFruitsStrategy implements BasketStrategy {
+  name = "Pick from the tree with the fewest fruits"
+
   pickTree(trees: Array<Tree>): Tree {
     return trees.sort((a, b) => a.numberOfFruits - b.numberOfFruits)[0]
   }
 }
 
 class RandomTreeStrategy implements BasketStrategy {
+  name = "Pick from a random tree"
+
   pickTree(trees: Array<Tree>): Tree {
     return trees[Random.randomFruit()]
   }
 }
 
 class PreferredFruitStrategy implements BasketStrategy {
+  name = "Pick preferred fruits first"
+
   pickTree(trees: Array<Tree>): Tree {
     const firstTreeWithFruits = trees.find(tree => tree.numberOfFruits >= 1)
     if (firstTreeWithFruits === undefined) {
@@ -203,30 +212,35 @@ class Game {
 
 class Main {
   public run() {
-    const numberOfGames = 1000000
-    console.info(`Playing ${numberOfGames} games.`)
+    const numberOfGamesPerStrategy = 1000000
 
-    let ravenVictories = 0
-    let ourVictories = 0
+    const strategies = [
+      new TreeWithFewestFruitsStrategy(),
+      new PreferredFruitStrategy(),
+      new RandomTreeStrategy(),
+      new TreeWithMostFruitsStrategy()
+    ]
 
-    for (let i = 0; i < numberOfGames; i++) {
-      const game = new Game(new TreeWithFewestFruitsStrategy())
-      game.playGame()
+    strategies.forEach(strategy => {
+      let ourVictories = 0
 
-      switch (game.state) {
-        case GameState.RavenWon:
-          ravenVictories++
-          break
+      for (let i = 0; i < numberOfGamesPerStrategy; i++) {
+        const game = new Game(strategy)
+        game.playGame()
 
-        case GameState.WeWon:
+        if (game.state === GameState.WeWon) {
           ourVictories++
-          break
+        }
       }
-    }
 
-    console.info(
-      `The raven won ${ravenVictories} times and we won ${ourVictories} times.`
-    )
+      const percentage = Math.round(
+        (ourVictories / numberOfGamesPerStrategy) * 100
+      )
+
+      console.info(
+        `We won ${percentage}% of the games with the '${strategy.name}' strategy.`
+      )
+    })
   }
 }
 
