@@ -164,32 +164,39 @@ class Game {
     const die = Random.roolDie()
 
     switch (die) {
+      case DieRool.Blue:
+      case DieRool.Green:
+      case DieRool.Red:
+      case DieRool.Yellow:
+        const fruit = Game.getFruitFromDie(die)
+        this.orchard.pickFruitIfPossible(fruit)
+        break
+
       case DieRool.Basket:
         this.basketStrategy.pickTree(this.orchard.trees).pickFruitIfPossible()
-        break
-
-      case DieRool.Blue:
-        this.orchard.pickFruitIfPossible(Fruit.BluePlum)
-        break
-
-      case DieRool.Green:
-        this.orchard.pickFruitIfPossible(Fruit.GreenApple)
         break
 
       case DieRool.Raven:
         this.ravenPosition--
         break
 
-      case DieRool.Red:
-        this.orchard.pickFruitIfPossible(Fruit.RedApple)
-        break
-
-      case DieRool.Yellow:
-        this.orchard.pickFruitIfPossible(Fruit.YellowPear)
-        break
-
       default:
         throw new UnreachableCaseError(die)
+    }
+  }
+
+  private static getFruitFromDie(
+    die: DieRool.Blue | DieRool.Green | DieRool.Red | DieRool.Yellow
+  ): Fruit {
+    switch (die) {
+      case DieRool.Blue:
+        return Fruit.BluePlum
+      case DieRool.Green:
+        return Fruit.GreenApple
+      case DieRool.Red:
+        return Fruit.RedApple
+      case DieRool.Yellow:
+        return Fruit.YellowPear
     }
   }
 }
