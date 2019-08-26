@@ -20,11 +20,13 @@ export class Orchard {
     )
   }
 
-  pickFruitIfPossible(fruit: Fruit) {
-    this.trees[fruit].pickFruitIfPossible()
+  public pickFruitIfPossible(fruit: Fruit) {
+    if (this.fruitAvailable(fruit)) {
+      this.trees[fruit].pickFruit()
+    }
   }
 
-  fruitAvailable(fruit: Fruit): boolean {
+  private fruitAvailable(fruit: Fruit): boolean {
     return this.trees[fruit].numberOfFruits >= 1
   }
 }

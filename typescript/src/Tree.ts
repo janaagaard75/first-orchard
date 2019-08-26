@@ -5,9 +5,11 @@ export class Tree {
 
   numberOfFruits: number
 
-  pickFruitIfPossible() {
-    if (this.numberOfFruits >= 1) {
-      this.numberOfFruits = this.numberOfFruits - 1
+  pickFruit() {
+    if (this.numberOfFruits === 0) {
+      throw new Error("There are no more fruits left to pick on this tree.")
     }
+
+    this.numberOfFruits = this.numberOfFruits - 1
   }
 }

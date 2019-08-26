@@ -54,7 +54,7 @@ export class Game {
         break
 
       case DieRool.Basket:
-        this.basketStrategy.pickTree(this.orchard.trees).pickFruitIfPossible()
+        this.basketStrategy.pickTree(this.orchard.trees).pickFruit()
         break
 
       case DieRool.Raven:
