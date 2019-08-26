@@ -21,25 +21,27 @@ class Main {
 
   public run() {
     this.strategies.forEach(strategy => {
-      let ourVictories = 0
-
-      for (let i = 0; i < this.numberOfGamesPerStrategy; i++) {
-        const game = new Game(strategy)
-        game.playGame()
-
-        if (game.state === GameState.WeWon) {
-          ourVictories++
-        }
-      }
-
-      const percentage = Math.round(
-        (ourVictories / this.numberOfGamesPerStrategy) * 100
-      )
+      const winPercentage = this.getWinPercentage(strategy)
 
       console.info(
-        `We won ${percentage}% of the games with the '${strategy.name}' strategy.`
+        `We won ${winPercentage}% of the games with the '${strategy.name}' strategy.`
       )
     })
+  }
+
+  private getWinPercentage(strategy: BasketStrategy): number {
+    let ourVictories = 0
+
+    for (let i = 0; i < this.numberOfGamesPerStrategy; i++) {
+      const game = new Game(strategy)
+      game.playGame()
+
+      if (game.state === GameState.WeWon) {
+        ourVictories++
+      }
+    }
+
+    return Math.round((ourVictories / this.numberOfGamesPerStrategy) * 100)
   }
 }
 
