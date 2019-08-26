@@ -26,6 +26,7 @@ export class Orchard {
     }
   }
 
+  // TODO: Move this to the Tree class.
   private fruitAvailable(fruit: Fruit): boolean {
     return this.trees[fruit].numberOfFruits >= 1
   }
