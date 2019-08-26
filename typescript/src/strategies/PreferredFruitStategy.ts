@@ -5,7 +5,7 @@ export class PreferredFruitStrategy implements BasketStrategy {
   name = "Pick preferred fruits first"
 
   pickTree(trees: Array<Tree>): Tree {
-    const firstTreeWithFruits = trees.find(tree => tree.numberOfFruits >= 1)
+    const firstTreeWithFruits = trees.find(tree => tree.hasFruitsLeft())
     if (firstTreeWithFruits === undefined) {
       throw new Error(
         "There are no more fruits left. The game should have ended by now."

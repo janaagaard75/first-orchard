@@ -6,7 +6,7 @@ export class TreeWithFewestFruitsStrategy implements BasketStrategy {
 
   pickTree(trees: Array<Tree>): Tree {
     return trees
-      .filter(tree => tree.numberOfFruits >= 1)
+      .filter(tree => tree.hasFruitsLeft())
       .sort((treeA, treeB) => treeA.numberOfFruits - treeB.numberOfFruits)[0]
   }
 }

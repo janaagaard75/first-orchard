@@ -21,13 +21,8 @@ export class Orchard {
   }
 
   public pickFruitIfPossible(fruit: Fruit) {
-    if (this.fruitAvailable(fruit)) {
+    if (this.trees[fruit].hasFruitsLeft()) {
       this.trees[fruit].pickFruit()
     }
-  }
-
-  // TODO: Move this to the Tree class.
-  private fruitAvailable(fruit: Fruit): boolean {
-    return this.trees[fruit].numberOfFruits >= 1
   }
 }
