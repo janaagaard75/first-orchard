@@ -1,25 +1,29 @@
 import { Game } from "./Game"
 import { GameState } from "./GameState"
+import { BasketStrategy } from "./strategies/BasketStrategy"
 import { PreferredFruitStrategy } from "./strategies/PreferredFruitStategy"
 import { RandomTreeStrategy } from "./strategies/RandomTreeStrategy"
 import { TreeWithFewestFruitsStrategy } from "./strategies/TreeWithFewestFruitsStategy"
 import { TreeWithMostFruitsStrategy } from "./strategies/TreeWithMostFruitsStategy"
 
 class Main {
-  public run() {
-    const numberOfGamesPerStrategy = 1000000
-
-    const strategies = [
+  constructor() {
+    this.strategies = [
       new TreeWithFewestFruitsStrategy(),
       new PreferredFruitStrategy(),
       new RandomTreeStrategy(),
       new TreeWithMostFruitsStrategy()
     ]
+  }
 
-    strategies.forEach(strategy => {
+  private readonly numberOfGamesPerStrategy = 1000000
+  private readonly strategies: Array<BasketStrategy>
+
+  public run() {
+    this.strategies.forEach(strategy => {
       let ourVictories = 0
 
-      for (let i = 0; i < numberOfGamesPerStrategy; i++) {
+      for (let i = 0; i < this.numberOfGamesPerStrategy; i++) {
         const game = new Game(strategy)
         game.playGame()
 
@@ -29,7 +33,7 @@ class Main {
       }
 
       const percentage = Math.round(
-        (ourVictories / numberOfGamesPerStrategy) * 100
+        (ourVictories / this.numberOfGamesPerStrategy) * 100
       )
 
       console.info(
