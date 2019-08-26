@@ -6,8 +6,8 @@ export class RandomTreeStrategy implements BasketStrategy {
   name = "Pick from a random tree"
 
   pickTree(trees: Array<Tree>): Tree {
-    const treesWithFruits = trees.filter(tree => tree.numberOfFruits >= 1)[
-      Random.randomFruit()
-    ]
+    const treesWithFruits = trees.filter(tree => tree.numberOfFruits >= 1)
+    const randomTreeNumber = Random.randomNumber(treesWithFruits.length)
+    return treesWithFruits[randomTreeNumber]
   }
 }
