@@ -1,4 +1,4 @@
-export enum DieRool {
+export enum DieRoll {
   Blue,
   Green,
   Red,
