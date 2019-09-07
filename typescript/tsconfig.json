@@ -2,6 +2,7 @@
   "compilerOptions": {
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
+    "noImplicitUseStrict": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
