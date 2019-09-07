@@ -1,0 +1,16 @@
+{
+  "name": "first-orchard",
+  "version": "1.0.0",
+  "description": "Simulations of the board game First Orchard.",
+  "author": "Jan Aagaard <jan@aagaard.net>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "ts-node src/Main.ts",
+    "validate": "tsc"
+  },
+  "dependencies": {
+    "ts-node": "8.3.0",
+    "typescript": "3.5.3"
+  }
+}
