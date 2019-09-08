@@ -6,6 +6,34 @@ import { RandomTreeStrategy } from "./strategies/RandomTreeStrategy"
 import { TreeWithFewestFruitsStrategy } from "./strategies/TreeWithFewestFruitsStategy"
 import { TreeWithMostFruitsStrategy } from "./strategies/TreeWithMostFruitsStategy"
 
+function getWinPercentage(
+  strategy: BasketStrategy,
+  numberOfGames: number
+): number {
+  const gameStates: Array<GameState> = [...Array(numberOfGames)]
+
+  gameStates.map(_ => {
+    const game = new Game(strategy)
+    game.playGame()
+    return game.state
+  })
+
+  const gamesWon = gameStates.reduce((sum, gameState) => {
+    if (gameState === GameState.WeWon) {
+      console.info("hejsa")
+      return sum + 1
+    }
+    return sum
+  }, 0)
+  console.info(gamesWon)
+  const winPercentage = (gamesWon / numberOfGames) * 100
+  return winPercentage
+}
+
+function getSummary(strategyName: string, winPercentage: number): string {
+  return `We won ${winPercentage}% of the games with the '${strategyName}' strategy.`
+}
+
 function run() {
   const strategies = [
     new TreeWithFewestFruitsStrategy(),
@@ -14,7 +42,7 @@ function run() {
     new TreeWithMostFruitsStrategy()
   ]
 
-  const numberOfGamesPerStrategy = 100000
+  const numberOfGamesPerStrategy = 100
   strategies
     .map(strategy => {
       return {
@@ -29,28 +57,6 @@ function run() {
       )
     )
     .forEach(summary => console.info(summary))
-}
-
-function getWinPercentage(
-  strategy: BasketStrategy,
-  numberOfGames: number
-): number {
-  let ourVictories = 0
-
-  for (let i = 0; i < numberOfGames; i++) {
-    const game = new Game(strategy)
-    game.playGame()
-
-    if (game.state === GameState.WeWon) {
-      ourVictories++
-    }
-  }
-
-  return Math.round((ourVictories / numberOfGames) * 100)
-}
-
-function getSummary(strategyName: string, winPercentage: number): string {
-  return `We won ${winPercentage}% of the games with the '${strategyName}' strategy.`
 }
 
 run()
