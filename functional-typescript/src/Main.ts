@@ -10,9 +10,9 @@ function getWinPercentage(
   strategy: BasketStrategy,
   numberOfGames: number
 ): number {
-  const gameStates: Array<GameState> = [...Array(numberOfGames)]
+  const games = [...Array(numberOfGames)]
 
-  gameStates.map(_ => {
+  const gameStates = games.map(_ => {
     const game = new Game(strategy)
     game.playGame()
     return game.state
@@ -20,13 +20,12 @@ function getWinPercentage(
 
   const gamesWon = gameStates.reduce((sum, gameState) => {
     if (gameState === GameState.WeWon) {
-      console.info("hejsa")
       return sum + 1
     }
     return sum
   }, 0)
-  console.info(gamesWon)
-  const winPercentage = (gamesWon / numberOfGames) * 100
+
+  const winPercentage = Math.round((gamesWon / numberOfGames) * 100)
   return winPercentage
 }
 
@@ -42,7 +41,7 @@ function run() {
     new TreeWithMostFruitsStrategy()
   ]
 
-  const numberOfGamesPerStrategy = 100
+  const numberOfGamesPerStrategy = 10000
   strategies
     .map(strategy => {
       return {
