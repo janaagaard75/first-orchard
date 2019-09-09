@@ -18,15 +18,13 @@ function getWinPercentage(
     return game.state
   })
 
-  const gamesWon = gameStates.reduce((sum, gameState) => {
-    if (gameState === GameState.WeWon) {
-      return sum + 1
-    }
-    return sum
+  const winRatio = gameStates.reduce((average, gameState, index) => {
+    return gameState === GameState.WeWon
+      ? (average * index + 1) / (index + 1)
+      : (average * index) / (index + 1)
   }, 0)
 
-  const winPercentage = Math.round((gamesWon / numberOfGames) * 100)
-  return winPercentage
+  return Math.round(winRatio * 100)
 }
 
 function getSummary(strategyName: string, winPercentage: number): string {
