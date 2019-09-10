@@ -1,4 +1,4 @@
-export enum DieRoll {
+export enum FirstOrchardDieRoll {
   Blue,
   Green,
   Red,

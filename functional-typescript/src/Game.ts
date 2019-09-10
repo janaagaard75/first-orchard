@@ -1,8 +1,8 @@
-import { DieRoll } from "./DieRoll"
+import { FirstOrchardDieRoll } from "./FirstOrchardDieRoll"
 import { Fruit } from "./Fruit"
 import { GameState } from "./GameState"
 import { Orchard } from "./Orchard"
-import { rollDie } from "./random"
+import { rollFirstOrchardDie } from "./random"
 import { BasketStrategy } from "./strategies/BasketStrategy"
 import { UnreachableCaseError } from "./UnreachableCaseError"
 
@@ -42,22 +42,22 @@ export class Game {
       throw new Error("Over 10000 turns performed. Something is wrong.")
     }
 
-    const die = rollDie()
+    const die = rollFirstOrchardDie()
 
     switch (die) {
-      case DieRoll.Blue:
-      case DieRoll.Green:
-      case DieRoll.Red:
-      case DieRoll.Yellow:
+      case FirstOrchardDieRoll.Blue:
+      case FirstOrchardDieRoll.Green:
+      case FirstOrchardDieRoll.Red:
+      case FirstOrchardDieRoll.Yellow:
         const fruit = Game.getFruitFromDie(die)
         this.orchard.pickFruitIfPossible(fruit)
         break
 
-      case DieRoll.Basket:
+      case FirstOrchardDieRoll.Basket:
         this.basketStrategy.pickTree(this.orchard.trees).pickFruit()
         break
 
-      case DieRoll.Raven:
+      case FirstOrchardDieRoll.Raven:
         this.ravenPosition--
         break
 
@@ -67,16 +67,20 @@ export class Game {
   }
 
   private static getFruitFromDie(
-    die: DieRoll.Blue | DieRoll.Green | DieRoll.Red | DieRoll.Yellow
+    die:
+      | FirstOrchardDieRoll.Blue
+      | FirstOrchardDieRoll.Green
+      | FirstOrchardDieRoll.Red
+      | FirstOrchardDieRoll.Yellow
   ): Fruit {
     switch (die) {
-      case DieRoll.Blue:
+      case FirstOrchardDieRoll.Blue:
         return Fruit.BluePlum
-      case DieRoll.Green:
+      case FirstOrchardDieRoll.Green:
         return Fruit.GreenApple
-      case DieRoll.Red:
+      case FirstOrchardDieRoll.Red:
         return Fruit.RedApple
-      case DieRoll.Yellow:
+      case FirstOrchardDieRoll.Yellow:
         return Fruit.YellowPear
     }
   }
