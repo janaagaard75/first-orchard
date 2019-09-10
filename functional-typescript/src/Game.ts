@@ -2,7 +2,7 @@ import { DieRoll } from "./DieRoll"
 import { Fruit } from "./Fruit"
 import { GameState } from "./GameState"
 import { Orchard } from "./Orchard"
-import { Random } from "./Random"
+import { rollDie } from "./random"
 import { BasketStrategy } from "./strategies/BasketStrategy"
 import { UnreachableCaseError } from "./UnreachableCaseError"
 
@@ -42,7 +42,7 @@ export class Game {
       throw new Error("Over 10000 turns performed. Something is wrong.")
     }
 
-    const die = Random.rollDie()
+    const die = rollDie()
 
     switch (die) {
       case DieRoll.Blue:

@@ -1,4 +1,4 @@
-import { Random } from "../Random"
+import { randomInteger } from "../random"
 import { Tree } from "../Tree"
 import { BasketStrategy } from "./BasketStrategy"
 
@@ -7,7 +7,7 @@ export class RandomTreeStrategy implements BasketStrategy {
 
   pickTree(trees: Array<Tree>): Tree {
     const treesWithFruits = trees.filter(tree => tree.hasFruitsLeft())
-    const randomTreeNumber = Random.randomNumber(treesWithFruits.length)
+    const randomTreeNumber = randomInteger(treesWithFruits.length)
     return treesWithFruits[randomTreeNumber]
   }
 }
