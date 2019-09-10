@@ -1,10 +1,10 @@
 import { Game } from "./Game"
 import { GameState } from "./GameState"
 import { BasketStrategy } from "./strategies/BasketStrategy"
-import { PreferredFruitStrategy } from "./strategies/PreferredFruitStategy"
+import { PreferredFruitStrategy } from "./strategies/PreferredFruitStrategy"
 import { RandomTreeStrategy } from "./strategies/RandomTreeStrategy"
-import { TreeWithFewestFruitsStrategy } from "./strategies/TreeWithFewestFruitsStategy"
-import { TreeWithMostFruitsStrategy } from "./strategies/TreeWithMostFruitsStategy"
+import { TreeWithFewestFruitsStrategy } from "./strategies/TreeWithFewestFruitsStrategy"
+import { TreeWithMostFruitsStrategy } from "./strategies/TreeWithMostFruitsStrategy"
 
 function getWinPercentage(
   strategy: BasketStrategy,
