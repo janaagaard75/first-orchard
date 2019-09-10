@@ -42,7 +42,7 @@ export class Game {
       throw new Error("Over 10000 turns performed. Something is wrong.")
     }
 
-    const die = Random.roolDie()
+    const die = Random.rollDie()
 
     switch (die) {
       case DieRoll.Blue:

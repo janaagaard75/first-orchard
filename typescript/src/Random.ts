@@ -1,7 +1,7 @@
 import { DieRoll } from "./DieRoll"
 
 export class Random {
-  public static roolDie(): DieRoll {
+  public static rollDie(): DieRoll {
     return this.randomNumber(6)
   }
 
